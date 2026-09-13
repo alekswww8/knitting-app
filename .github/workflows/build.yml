@@ -32,11 +32,13 @@ jobs:
           pip install --upgrade pip
           pip install --upgrade buildozer cython==0.29.37 kivy
 
-      - name: Accept Android licenses
+      - name: Force accept Android SDK licenses inside buildozer folder
         run: |
-          mkdir -p ~/.android
-          touch ~/.android/repositories.cfg
-          yes | sdkmanager --licenses || true
+          SDK_DIR="$HOME/.buildozer/android/platform/android-sdk"
+          mkdir -p "$SDK_DIR/licenses"
+          echo "8933bad161af4178b1185d1a37fbf41ea5269c55" > "$SDK_DIR/licenses/android-sdk-license"
+          echo "84831b9409646a918e30573bab4c9c91346d8abd" >> "$SDK_DIR/licenses/android-sdk-license"
+          echo "d56f5187479451eabf01fb78af6dfcb139a64860" >> "$SDK_DIR/licenses/android-sdk-license"
 
       - name: Build APK with Buildozer
         run: |
