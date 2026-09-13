@@ -16,7 +16,7 @@ jobs:
         with:
           python-version: '3.10'
 
-      - name: Install dependencies
+      - name: Install system dependencies
         run: |
           sudo apt-get update
           sudo apt-get install -y \
@@ -26,10 +26,10 @@ jobs:
             libavformat-dev libavcodec-dev libffi-dev libssl-dev libxml2-dev \
             libxslt1-dev libjpeg-dev libpng-dev
 
-      - name: Accept Android SDK licenses properly
+      - name: Accept Android SDK licenses and install build-tools
         run: |
-          mkdir -p ~/.android && touch ~/.android/repositories.cfg
-          yes | /usr/local/lib/android/sdk/cmdline-tools/latest/bin/sdkmanager --licenses || true
+          export ANDROID_HOME=/usr/local/lib/android/sdk
+          yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --sdk_root=$ANDROID_HOME "platforms;android-33" "build-tools;33.0.2" "platform-tools" || true
 
       - name: Install Buildozer and Kivy
         run: |
