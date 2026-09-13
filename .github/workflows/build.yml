@@ -26,11 +26,10 @@ jobs:
             libavformat-dev libavcodec-dev libffi-dev libssl-dev libxml2-dev \
             libxslt1-dev libjpeg-dev libpng-dev
 
-      - name: Accept Android SDK licenses
+      - name: Accept Android SDK licenses properly
         run: |
-          mkdir -p $HOME/.android
-          touch $HOME/.android/repositories.cfg
-          yes | sdkmanager --licenses || true
+          mkdir -p ~/.android && touch ~/.android/repositories.cfg
+          yes | /usr/local/lib/android/sdk/cmdline-tools/latest/bin/sdkmanager --licenses || true
 
       - name: Install Buildozer and Kivy
         run: |
